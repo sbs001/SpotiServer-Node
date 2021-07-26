@@ -60,15 +60,7 @@ const getNewReleases = async(req, res, next) => {
     }
 }
 
-const getArtists = async(req, res, next) => {
-    try {
-        const { data } = await axios.get(`${URL_BASE}/search?q=${req.params.artist}&type=artist&limit=15`, await headers());
-        res.send(data);
 
-    } catch (error) {
-        res.status(400).send(error)
-    }
-}
 
 module.exports = {
     getNewReleases,
