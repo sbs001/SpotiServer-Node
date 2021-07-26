@@ -35,7 +35,7 @@ let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].s
 sequelize.models = Object.fromEntries(capsEntries);
 
 
-const { User } = sequelize.models;
+const { Spotiapp } = sequelize.models;
 
 //relations
 

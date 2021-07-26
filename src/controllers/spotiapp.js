@@ -1,4 +1,4 @@
-const { User } = require('../../db.js');
+const { Spotiapp } = require('../../db.js');
 const axios = require('axios');
 
 require('dotenv').config();
@@ -9,14 +9,13 @@ const {
 
 const getToken = async(req, res, next) => {
 
+    const actualToken = await Spotiapp.findAll();
 
-    const actualToken = await User.findAll();
-
-    if (((new Date - actualToken[0].dataValues.createdAt) / 60000) < 59)
-        return res.sendStatus(200);
+    // if (((new Date - actualToken[0].dataValues.createdAt) / 60000) < 59)
+    //     return res.sendStatus(200);
 
     if (actualToken.length)
-        await User.destroy({
+        await Spotiapp.destroy({
             where: {
                 token: actualToken[0].dataValues.token
             }
@@ -41,10 +40,11 @@ const getToken = async(req, res, next) => {
         })
 
 
-        User.create({ token: token.data.access_token });
+        Spotiapp.create({ token: token.data.access_token });
 
         return res.sendStatus(200)
     } catch (error) {
+        console.log(error)
         res.status(400).send(error.message)
     }
 }

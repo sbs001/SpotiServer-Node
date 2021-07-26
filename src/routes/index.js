@@ -1,10 +1,10 @@
 const { default: axios } = require('axios');
 const { Router } = require('express');
-const user = require('./user.js');
+const spotiapp = require('./spotiapp.js');
 
 const router = Router();
 
-router.use('/user', user);
+router.use('/spotiapp', spotiapp);
 
 
 router.get('/', (req, res) => {

@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getToken } = require('../controllers/user.js')
+const { getToken } = require('../controllers/spotiapp.js')
 
 const router = Router();
 
