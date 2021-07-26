@@ -7,28 +7,23 @@ const {
     CLIENT_SECRET
 } = process.env
 
-const getToken = async(req, res, next) => {
+
+const getToken = async() => {
 
     const actualToken = await Spotiapp.findAll();
 
-    // if (((new Date - actualToken[0].dataValues.createdAt) / 60000) < 59)
-    //     return res.sendStatus(200);
+    if (actualToken.length) {
+        if (((new Date - actualToken[0].dataValues.createdAt) / 60000) < 59)
+            return actualToken[0].dataValues.token;
 
-    if (actualToken.length)
-        await Spotiapp.destroy({
-            where: {
-                token: actualToken[0].dataValues.token
-            }
-        })
-
+        if (actualToken.length)
+            await Spotiapp.destroy({ where: { token: actualToken[0].dataValues.token } })
+    }
     try {
-
         const token = await axios({
             url: 'https://accounts.spotify.com/api/token',
             method: 'post',
-            params: {
-                grant_type: 'client_credentials'
-            },
+            params: { grant_type: 'client_credentials' },
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -37,18 +32,19 @@ const getToken = async(req, res, next) => {
                 username: CLIENT_ID,
                 password: CLIENT_SECRET
             }
-        })
-
+        });
 
         Spotiapp.create({ token: token.data.access_token });
+        return token.data.access_token;
 
-        return res.sendStatus(200)
-    } catch (error) {
-        console.log(error)
-        res.status(400).send(error.message)
-    }
+    } catch (error) { console.log(error.data) }
+};
+
+const getNewRealses = async(req, res, next) => {
+    console.log(await getToken());
+    res.sendStatus(200)
 }
 
 module.exports = {
-    getToken
+    getNewRealses
 }

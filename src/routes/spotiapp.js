@@ -1,8 +1,8 @@
 const { Router } = require('express');
-const { getToken } = require('../controllers/spotiapp.js')
+const { getNewRealses } = require('../controllers/spotiapp.js')
 
 const router = Router();
 
-router.get('/token', getToken);
+router.get('/token', getNewRealses);
 
 module.exports = router;
