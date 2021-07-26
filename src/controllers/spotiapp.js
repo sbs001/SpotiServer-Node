@@ -1,6 +1,8 @@
 const { Spotiapp } = require('../../db.js');
 const axios = require('axios');
 
+const URL_BASE = "https://api.spotify.com/v1";
+
 require('dotenv').config();
 const {
     CLIENT_ID,
@@ -40,11 +42,35 @@ const getToken = async() => {
     } catch (error) { console.log(error.data) }
 };
 
-const getNewRealses = async(req, res, next) => {
-    console.log(await getToken());
-    res.sendStatus(200)
+const headers = async() => {
+    return {
+        'headers': {
+            'Authorization': `Bearer ${await getToken()}`
+        }
+    }
+}
+
+const getNewReleases = async(req, res, next) => {
+    try {
+        const { data } = await axios.get(`${URL_BASE}/browse/new-releases`, await headers());
+        res.send(data);
+
+    } catch (error) {
+        res.status(400).send(error)
+    }
+}
+
+const getArtists = async(req, res, next) => {
+    try {
+        const { data } = await axios.get(`${URL_BASE}/search?q=${req.params.artist}&type=artist&limit=15`, await headers());
+        res.send(data);
+
+    } catch (error) {
+        res.status(400).send(error)
+    }
 }
 
 module.exports = {
-    getNewRealses
+    getNewReleases,
+    getArtists
 }
