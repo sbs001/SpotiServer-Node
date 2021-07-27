@@ -80,9 +80,21 @@ const getArtistById = async(req, res, next) => {
     }
 }
 
+const getTopTracks = async(req, res, next) => {
+
+    try {
+        const { data } = await axios.get(`${URL_BASE}/artists/${req.params.id}/top-tracks?market=es`, await headers());
+        res.send(data);
+
+    } catch (error) {
+        res.status(400).send(error)
+    }
+}
+
 
 module.exports = {
     getNewReleases,
     getArtists,
-    getArtistById
+    getArtistById,
+    getTopTracks
 }
