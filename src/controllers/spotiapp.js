@@ -44,11 +44,15 @@ const getToken = async() => {
 };
 
 const headers = async() => {
-    return {
-        'headers': {
-            'Authorization': `Bearer ${await getToken()}`
+    try {
+
+        return {
+            'headers': {
+                'Authorization': `Bearer ${await getToken()}`
+            }
         }
-    }
+    } catch (error) { console.log(error.data) }
+
 }
 
 const getNewReleases = async(req, res, next) => {
