@@ -5,3 +5,4 @@ conn.sync({ force: false })
     .then(() => {
         server.listen(process.env.PORT, () => console.log('%s listening at ' + process.env.PORT))
     })
+    .catch(err => console.log(err))
