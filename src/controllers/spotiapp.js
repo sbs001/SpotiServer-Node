@@ -53,7 +53,7 @@ const headers = async() => {
 const getNewReleases = async(req, res, next) => {
     try {
         const { data } = await axios.get(`${URL_BASE}/browse/new-releases`, await headers());
-        res.send(data);
+        res.send(data.albums.items);
 
     } catch (error) {
         res.status(400).send(error)
@@ -63,7 +63,7 @@ const getNewReleases = async(req, res, next) => {
 const getArtists = async(req, res, next) => {
     try {
         const { data } = await axios.get(`${URL_BASE}/search?q=${req.params.artist}&type=artist&limit=15`, await headers());
-        res.send(data);
+        res.send(data.artists.items);
 
     } catch (error) {
         res.status(400).send(error)
@@ -84,7 +84,7 @@ const getTopTracks = async(req, res, next) => {
 
     try {
         const { data } = await axios.get(`${URL_BASE}/artists/${req.params.id}/top-tracks?market=es`, await headers());
-        res.send(data);
+        res.send(data.tracks);
 
     } catch (error) {
         res.status(400).send(error)
