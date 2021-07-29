@@ -11,17 +11,18 @@ const {
 
 
 const getToken = async() => {
-
-    const actualToken = await Spotiapp.findAll();
-
-    if (actualToken.length) {
-        if (((new Date - actualToken[0].dataValues.createdAt) / 60000) < 59)
-            return actualToken[0].dataValues.token;
-
-        if (actualToken.length)
-            await Spotiapp.destroy({ where: { token: actualToken[0].dataValues.token } })
-    }
     try {
+
+        const actualToken = await Spotiapp.findAll();
+
+        if (actualToken.length) {
+            if (((new Date - actualToken[0].dataValues.createdAt) / 60000) < 59)
+                return actualToken[0].dataValues.token;
+
+            if (actualToken.length)
+                await Spotiapp.destroy({ where: { token: actualToken[0].dataValues.token } })
+        }
+
         const token = await axios({
             url: 'https://accounts.spotify.com/api/token',
             method: 'post',
